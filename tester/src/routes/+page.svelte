@@ -1,7 +1,7 @@
 <script>
   import Header from "./header/header.svelte";
   import Main from "./main/main.svelte";
-  import Footer from "../footer/footer.svelte";
+  import Footer from "./footer/footer.svelte";
   let color = "black";
 </script>
 

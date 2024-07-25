@@ -1,18 +1,34 @@
 <script>
-  let number = 0;
+  import Upgrades from "./upgrades/upgrades.svelte";
+  // import herbsBundle from ""
+  let number = 0,
+    clickPower = 1;
+
   const shareData = {
-  title: number,
-  text: `MY SCORE ${number}`,
-  url: "https://chatgpt.com/c/9fc6da7f-a754-4d29-b5f5-f09da05f4a39",
-};
-let resultText = '';
-async function share() {
+    title: number,
+    text: `MY SCORE ${number}`,
+    url: "https://chatgpt.com/c/9fc6da7f-a754-4d29-b5f5-f09da05f4a39",
+  };
+  let resultText = "";
+  async function share() {
     try {
       await navigator.share(shareData);
       // resultText = 'MDN shared successfully';
     } catch (err) {
       resultText = `Error: ${err}`;
     }
+  }
+  const clicker = () => {
+    number += clickPower;
+  };
+  const increaseClickPower = () => {
+    clickPower++;
+  };
+  const deductNumber = (event) => {
+    const amount = event.detail;
+    // console.log(typeof amount, amount)
+    number -= amount
+    // if(number !== Number){number = 0}
   }
 </script>
 
@@ -24,15 +40,24 @@ async function share() {
     {/if}
   </div>
   <div class="cookie">
-    <button class="buttonC__mainB" on:click={() => number++}></button>
+    <button class="buttonC__mainB" on:click={clicker}></button>
   </div>
   <div class="upgrades">
-      
+    <h2>Upgrades:</h2>
+    <Upgrades
+      imgUrl="null"
+      textT="Power of herbs"
+      textD="click power +1"
+      number={number}
+      on:increaseClickPower={increaseClickPower}
+      on:deductNumber={deductNumber}
+    ></Upgrades>
   </div>
 </div>
 
 <style>
   .border {
+    overflow: hidden;
     position: relative;
     width: 100%;
     height: 500px;
@@ -56,9 +81,9 @@ async function share() {
     transform: translate(-50%, -50%);
     width: 300px;
     height: 300px;
-    background: url(./pngwing.com.png);
+    background: url(/images/pngwing.com.png);
     background-repeat: no-repeat;
-    background-size:cover;
+    background-size: cover;
     background-position: center;
 
     animation: cookies linear infinite 10s;
@@ -72,11 +97,14 @@ async function share() {
     }
   }
   .buttonC {
+
     margin: 0 auto;
     text-align: center;
     padding: 20px;
   }
   .buttonC__mainB {
+    cursor: pointer;
+
     position: absolute;
     top: 50%;
     left: 50%;
@@ -92,5 +120,32 @@ async function share() {
     position: absolute;
     bottom: -5px;
     right: -10px;
+  }
+  .upgrades {
+    position: absolute;
+    padding: 20px;
+    right: 0px;
+    width: 500px;
+    height: auto;
+    background: rgb(108, 35, 0);
+    background: linear-gradient(
+      0deg,
+      rgba(108, 35, 0, 1) 0%,
+      rgba(125, 56, 0, 1) 50%,
+      rgba(119, 71, 17, 1) 100%
+    );
+    text-align: center;
+    /* transform: translateX(99%); */
+    transition: 1s;
+  }
+  .upgrades:hover {
+    /* transform: translateX(0%); */
+  }
+
+  .upgrades > h2 {
+    font-size: 36px;
+    color: rgb(231, 192, 140);
+    /* text-decoration: underline rgb(112, 0, 0); */
+    padding-bottom: 20px;
   }
 </style>
